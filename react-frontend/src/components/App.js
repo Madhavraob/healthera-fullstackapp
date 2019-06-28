@@ -18,7 +18,7 @@ function App() {
         <Route path="/login" component={LoginPage} />
         <Route path="/register" component={RegisterPage} />
         <Route path="/patient-list" component={PatientListPage} />
-        <Route path="/record-list" component={RecordListPage} />
+        <Route path="/reports/:patientId/:patientName" component={RecordListPage} />
         <Route component={PageNotFound} />
       </Switch>
     </div>

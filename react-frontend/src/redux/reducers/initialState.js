@@ -1,5 +1,6 @@
 export default {
   users: { loggedInUser: {}, patients: [] },
   records: [],
-  notifications: []
+  notifications: [],
+  quotes: []
 };

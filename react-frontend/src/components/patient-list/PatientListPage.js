@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import * as userActions from "../../redux/actions/userActions";
+import * as quoteActions from "../../redux/actions/quoteActions";
 import { bindActionCreators } from "redux";
 import PatientPage from "./PatientPage";
 
@@ -45,6 +46,25 @@ class PatientListPage extends React.Component {
     this.quote.username = patient.firstName;
   }
 
+  handleInputChange = (event, field) => {
+    this.quote[field] = event.target.value;
+  }
+
+
+  sendQuote = () => {
+    debugger
+    this.props.actions.create(this.quote).catch(error => {
+      alert("Create Record failed" + error);
+    });
+    // this.props.actions.getAllPatients().catch(error => {
+    //   alert("Fetch patients failed" + error);
+    // });
+  }
+
+  getReports = (patient) => {
+    this.props.history.push(`/reports/${patient._id}/${patient.firstName}`)
+  }
+
   render() {
     // const style = "box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);"
     return (
@@ -66,7 +86,7 @@ class PatientListPage extends React.Component {
               {this.props.users.patients.map(item =>
                 (
                   <tr key={item._id}>
-                    <td onClick={this.getUserDetails}>{item.firstName}</td>
+                    <td onClick={() => this.getReports(item)}>{item.firstName}</td>
                     <td>{item.lastName}</td>
                     <td>{item.tel}</td>
                     <td>
@@ -86,14 +106,14 @@ class PatientListPage extends React.Component {
 
               <div className="modal-content">
                 <div className="modal-header">
-                  <h4 className="modal-title inline">Send Quote to {this.currentPatient.firstName}</h4>
+                  <h4 className="modal-title inline">Send Quote too {this.currentPatient.firstName}</h4>
                   <button type="button" className="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div className="modal-body">
                   <form>
                     <div className="form-group">
                       <label htmlFor="quote">Quote</label>
-                      <textarea type="text" className="form-control" ></textarea>
+                      <textarea type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'quote')} />
                     </div>
                   </form>
                 </div >
@@ -125,6 +145,7 @@ function mapDispatchToProps(dispatch) {
   return {
     actions: {
       loginUser: bindActionCreators(userActions.loginUser, dispatch),
+      create: bindActionCreators(quoteActions.create, dispatch),
       getAllPatients: bindActionCreators(userActions.getAllPatients, dispatch),
     }
   };

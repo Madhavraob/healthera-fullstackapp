@@ -9,17 +9,26 @@ class NotificationListPage extends React.Component {
 
   username;
   password;
-  currentPatient = { firstName: '' };
+  currentPatient;
   notificationMsg = '';
   currentUser;
 
   componentDidMount() {
-    this.currentUser = localStorage.getItem('currentUser');
-    this.props.actions.getAll().catch(error => {
-      alert("Fetch patients failed" + error);
-    });
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.loadNotifications();
   }
 
+  loadNotifications = () => {
+    if (this.currentUser.role === 'patient') {
+      this.props.actions.getByPatientId(this.currentUser._id).catch(error => {
+        alert("Fetch patients failed" + error);
+      });
+    } else {
+      this.props.actions.getAll().catch(error => {
+        alert("Fetch patients failed" + error);
+      });
+    }
+  }
   // componentDidUpdate(prevProps, prevState) {
   //   if (this.props.users.loggedInUser && this.props.users.loggedInUser.token)
   //     this.props.history.push("/")
@@ -33,7 +42,9 @@ class NotificationListPage extends React.Component {
   updateNotification = (value, _id) => {
     const updatedNotification = this.props.notifications.find(notification => notification._id === _id);
     updatedNotification.resolved = !updatedNotification.resolved;
-    this.props.actions.update(updatedNotification);
+    this.props.actions.update(updatedNotification).then(() => {
+      this.loadNotifications();
+    });
   }
 
   notificationMsgChange = (event) => {
@@ -50,12 +61,14 @@ class NotificationListPage extends React.Component {
       userId: currentUserLocal._id,
       username: currentUserLocal.firstName
     };
-    this.props.actions.create(newNotification);
+    this.props.actions.create(newNotification).then(() => {
+      this.loadNotifications();
+    });
   }
 
   render() {
     // const style = "box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);"
-    const bottonStyle = { float: 'right', 'margin-top': '22px' };
+    const bottonStyle = { float: 'right', 'marginTop': '22px' };
     const messageStyle = { display: 'inline-block' };
     const sendAlert = { display: 'inline' };
     return (
@@ -90,7 +103,7 @@ class NotificationListPage extends React.Component {
                     <td >{item.username}</td>
                     <td>{item.tel}</td>
                     <td>{item.alert}</td>
-                    <td>{JSON.stringify(item.resolved)}<input type="checkbox" checked={item.resolved} onChange={(event) => this.updateNotification(event, item._id)} /></td>
+                    <td><input type="checkbox" checked={item.resolved} onChange={(event) => this.updateNotification(event, item._id)} /></td>
                   </tr >
                 )
               )}

@@ -8,11 +8,20 @@ import { bindActionCreators } from "redux";
 class RecordListPage extends React.Component {
 
   username;
+  patientId;
+  patientName;
   password;
   currentPatient = { firstName: '' };
+  newRecord = {
+    userId: '', username: '', pulseRate: '', bloodPressure: '',
+    temprature: '', weight: '', comments: ''
+  }
 
   componentDidMount() {
-    this.props.actions.getByPatientId('5caf28e2e917e108a4bc4fad').catch(error => {
+    this.patientId = this.props.match.params.patientId;    
+    this.patientName = this.props.match.params.patientName;    
+    this.props.actions.getByPatientId(this.props.match.params.patientId).catch(error => {
+      // this.props.actions.getByPatientId('5caf28e2e917e108a4bc4fa').catch(error => {
       alert("Fetch patients failed" + error);
     });
   }
@@ -31,14 +40,30 @@ class RecordListPage extends React.Component {
     this.password = value.target.value;
   }
 
+  handleInputChange = (event, field) => {
+    this.newRecord[field] = event.target.value;
+  }
+
+  createRecord = () => {
+    this.newRecord.userId = this.patientId;
+    this.newRecord.username = this.patientName;    
+    this.props.actions.create(this.newRecord).catch(error => {
+      alert("Create Record failed" + error);
+    });
+  }
+
   render() {
+    const addReportBtnStyles = { float: 'right', marginTop: '15px' };
+    const inlineStyle = { display: 'inline-block' };
     // const style = "box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);"
     return (
-      <div className="container col-sm-6">
+      <div className="container-fluid">
 
-        <h3>All Patients:</h3>
+        <h3 style={inlineStyle}>Records of</h3>
+        <button type="button" className="btn btn-info btn-md" style={addReportBtnStyles} data-toggle="modal" data-target="#myModal">Add Report</button>
 
-        <div className="container">
+
+        <div className="container-fluid">
           <table className="table table-striped">
             <thead>
               <tr>
@@ -68,21 +93,38 @@ class RecordListPage extends React.Component {
 
               <div className="modal-content">
                 <div className="modal-header">
-                  <h4 className="modal-title inline">Send Quote to {this.currentPatient.firstName}</h4>
+                  <h4 className="modal-title" style={inlineStyle}>Create Record</h4>
                   <button type="button" className="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div className="modal-body">
                   <form>
                     <div className="form-group">
-                      <label htmlFor="quote">Quote</label>
-                      <textarea type="text" className="form-control" ></textarea>
+                      <label htmlFor="pulseRate">Pulserate</label>
+                      <input type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'pulseRate')}/>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="bloodPressure">Bloodpressure</label>
+                      <input type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'bloodPressure')}/>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="temprature">Temprature</label>
+                      <input type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'temprature')}/>
+                    </div>
+                    <div className="form-group">1
+                      <label htmlFor="weight">weight</label>
+                      <input type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'weight')}/>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="comments">Comments</label>
+                      <textarea type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'comments')}/>
                     </div>
                   </form>
-                </div >
+                </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.sendQuote}>Send</button>
-                </div >
-              </div >
+                  <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.createRecord}>Add</button>
+                </div>
+              </div>
+
 
             </div >
           </div >

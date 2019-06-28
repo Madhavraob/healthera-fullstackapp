@@ -7,6 +7,28 @@ class PatientPage extends React.Component {
   constructor(props) {
     super(props)
   }
+
+  newQuote = {
+    userId: '', username: '', quote: ''
+  };
+
+  handleInputChange = (event, field) => {
+    this.newQuote[field] = event.target.value;
+  }
+
+  preFillQuote = (user) => {
+    this.newQuote.userId = user._id;
+    this.newQuote.username = user.username;
+  }
+
+  sendQuote = () => {
+    debugger
+    // this.newQuote.quote = this.patientName;    
+    this.props.actions.create(this.newQuote).catch(error => {
+      alert("Create Record failed" + error);
+    });
+  }
+
   render() {
     const user = this.props.item;
     return (
@@ -18,7 +40,7 @@ class PatientPage extends React.Component {
         <td>
           <button type="button" className="btn btn-info btn-sm"
             data-toggle="modal" data-target="#myModal"
-            onClick={this.setCurrentPatient}>
+            onClick={this.preFillQuote(user)}>
             <span className="glyphicon glyphicon-envelope"></span>
           </button>
 
@@ -34,7 +56,7 @@ class PatientPage extends React.Component {
                   <form>
                     <div className="form-group">
                       <label htmlFor="quote">Quote</label>
-                      <textarea type="text" className="form-control" ></textarea>
+                      <textarea type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'quote')} />
                     </div>
                   </form>
                 </div >
