@@ -50,7 +50,12 @@ export function getByPatientId(id) {
   return fetch(baseUrl + '/quotes/patient/' + id, {
     method: 'GET',
     headers: getHeaders()
-  }).then(handleResponse)
+  }).then(
+    // handleResponse)
+    res => {
+      if (res)
+        handleResponse
+    })
     .catch(handleError);
 }
 

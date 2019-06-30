@@ -26,9 +26,9 @@ export function create(record) {
   return function (dispatch) {
     return recordApi
       .create(record)
-      .then(newRecord => {
-        dispatch(createRecordSuccess(newRecord));
-      })
+      // .then(() => {
+      //   dispatch(createRecordSuccess());
+      // })
       .catch(error => {
         throw error;
       });

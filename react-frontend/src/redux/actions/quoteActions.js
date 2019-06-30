@@ -40,7 +40,9 @@ export function getByPatientId(id) {
     return quoteApi
       .getByPatientId(id)
       .then(quotes => {
-        dispatch(loadQuotesSuccess(quotes));
+        if (quotes) {
+          dispatch(loadQuotesSuccess(quotes));
+        }
       })
       .catch(error => {
         throw error;

@@ -12,7 +12,6 @@ function App() {
   return (
     <div className="container-fluid">
       <Header />
-      {/* <Route component={Header} /> */}
       <Switch>
         <Route exact path="/" component={NotificatonListPage} />
         <Route path="/login" component={LoginPage} />

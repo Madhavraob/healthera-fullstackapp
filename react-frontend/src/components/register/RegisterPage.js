@@ -20,7 +20,7 @@ class RegisterPage extends React.Component {
         username: this.username, password: this.password,
         tel: this.tel, role: this.role
       }).then(res => {
-        this.props.history.push("/")
+        this.props.history.push("/login")
       }).catch(error => {
         alert("Registering user failed" + error);
       });
@@ -49,10 +49,10 @@ class RegisterPage extends React.Component {
     this.password = value.target.value;
   }
   handleTelChange = (value) => {
-    this.firstName = value.target.value;
+    this.tel = value.target.value;
   }
   handleRoleChange = (value) => {
-    this.firstName = value.target.value;
+    this.role = value.target.value;
   }
 
   render() {
@@ -62,27 +62,27 @@ class RegisterPage extends React.Component {
         <form>
           <div className="form-group">
             <label htmlFor="firstName">FirstName</label>
-            <input type="text" className="form-control" onChange={this.handleFNameChange} />
+            <input type="text" className="form-control" onChange={(event) => this.handleFNameChange(event)} />
           </div >
           <div className="form-group">
             <label htmlFor="lastName">LastName</label>
-            <input type="text" className="form-control" onChange={this.handleLNameChange} />
+            <input type="text" className="form-control" onChange={(event) => this.handleLNameChange(event)} />
           </div >
           <div className="form-group">
             <label htmlFor="username">Username</label>
-            <input type="text" className="form-control" onChange={this.handleUNameChange} />
+            <input type="text" className="form-control" onChange={(event) => this.handleUNameChange(event)} />
           </div >
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <input type="password" className="form-control" onChange={this.handlePasswordChange} />
+            <input type="password" className="form-control" onChange={(event) => this.handlePasswordChange(event)} />
           </div >
           <div className="form-group">
             <label htmlFor="tel">Telephone</label>
-            <input type="text" className="form-control" onChange={this.handleTelChange} />
+            <input type="text" className="form-control" onChange={(event) => this.handleTelChange(event)} />
           </div >
           <div className="form-group">
             <label htmlFor="role">Role</label>
-            <select className="form-control" onChange={this.handleRoleChange}>
+            <select className="form-control" onChange={(event) => this.handleRoleChange(event)}>
               <option value="nurse">Nurse</option>
               <option value="patient">Patient</option>
             </select>

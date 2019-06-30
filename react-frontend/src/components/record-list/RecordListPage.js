@@ -18,6 +18,10 @@ class RecordListPage extends React.Component {
   }
 
   componentDidMount() {
+    this.loadRecords();
+  }
+
+  loadRecords = () => {
     this.patientId = this.props.match.params.patientId;    
     this.patientName = this.props.match.params.patientName;    
     this.props.actions.getByPatientId(this.props.match.params.patientId).catch(error => {
@@ -47,7 +51,11 @@ class RecordListPage extends React.Component {
   createRecord = () => {
     this.newRecord.userId = this.patientId;
     this.newRecord.username = this.patientName;    
-    this.props.actions.create(this.newRecord).catch(error => {
+    this.props.actions.create(this.newRecord)
+    .then(() => {
+      this.loadRecords();
+    })
+    .catch(error => {
       alert("Create Record failed" + error);
     });
   }
@@ -55,15 +63,14 @@ class RecordListPage extends React.Component {
   render() {
     const addReportBtnStyles = { float: 'right', marginTop: '15px' };
     const inlineStyle = { display: 'inline-block' };
-    // const style = "box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);"
+    const shadowStyle = {boxShadow: "0 15px 20px rgba(0, 0, 0, 0.3)"}
     return (
       <div className="container-fluid">
 
-        <h3 style={inlineStyle}>Records of</h3>
+        <h3 style={inlineStyle}>Reports of {this.patientName}</h3>
         <button type="button" className="btn btn-info btn-md" style={addReportBtnStyles} data-toggle="modal" data-target="#myModal">Add Report</button>
 
-
-        <div className="container-fluid">
+        <div className="container-fluid" style={shadowStyle}>
           <table className="table table-striped">
             <thead>
               <tr>

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import * as userActions from "../../redux/actions/userActions";
 import * as quoteActions from "../../redux/actions/quoteActions";
 import { bindActionCreators } from "redux";
-import PatientPage from "./PatientPage";
+// import PatientPage from "./PatientPage";
 
 class PatientListPage extends React.Component {
 

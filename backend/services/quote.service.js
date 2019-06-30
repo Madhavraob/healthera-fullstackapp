@@ -30,7 +30,7 @@ async function getById(id) {
 }
 
 async function getByPatientId(id) {
-    return await Quote.find({ userId: id }).sort({ createdDate: 1 }).limit(1).select('-hash');
+    return await Quote.find({ userId: id }).sort({ createdDate: -1 }).limit(1).select('-hash');
 }
 
 async function update(id, quote) {

@@ -17,9 +17,9 @@ export function create(notification) {
   return function (dispatch) {
     return notificationsApi
       .create(notification)
-      .then(newNotification => {
-        dispatch(createNotificationSuccess(newNotification));
-      })
+      // .then(newNotification => {
+      //   dispatch(createNotificationSuccess(newNotification));
+      // })
       .catch(error => {
         throw error;
       });
@@ -30,9 +30,9 @@ export function update(notification) {
   return function (dispatch) {
     return notificationsApi
       .update(notification)
-      .then(updatedNotification => {
-        dispatch(updateNotificationSuccess(updatedNotification));
-      })
+      // .then(updatedNotification => {
+      //   dispatch(updateNotificationSuccess(updatedNotification));
+      // })
       .catch(error => {
         throw error;
       });
