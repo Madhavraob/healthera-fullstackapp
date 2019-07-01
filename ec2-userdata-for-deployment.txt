@@ -1,3 +1,4 @@
+#!/bin/bash/
 sudo su
 yum -y update
 echo "[mongodb-org-4.0]
@@ -22,6 +23,7 @@ cd /home/ec2-user/
 git clone https://github.com/Madhavraob/healthera-fullstackapp.git
 cd /home/ec2-user/healthera-fullstackapp/
 
+npm i
 npm i --prefix backend
 npm i --prefix angular-frontend
 npm i --prefix react-frontend
