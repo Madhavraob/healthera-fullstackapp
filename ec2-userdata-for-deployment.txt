@@ -1,0 +1,29 @@
+sudo su
+yum -y update
+echo "[mongodb-org-4.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/amazon/2013.03/mongodb-org/4.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.0.asc" > /etc/yum.repos.d/mongodb-org-4.0.repo
+
+yum install -y mongodb-org
+
+service mongod start
+
+# get node into yum
+curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
+# install node (and npm) with yum
+yum -y install nodejs
+# install git
+sudo yum -y install git
+
+cd /home/ec2-user/
+git clone https://github.com/Madhavraob/healthera-fullstackapp.git
+cd /home/ec2-user/healthera-fullstackapp/
+
+npm i --prefix backend
+npm i --prefix angular-frontend
+npm i --prefix react-frontend
+
+npm start
