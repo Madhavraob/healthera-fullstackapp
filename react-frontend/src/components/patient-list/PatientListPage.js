@@ -49,14 +49,12 @@ class PatientListPage extends React.Component {
   }
 
   render() {
-    const styleShadow = {boxShadow: "0 15px 20px rgba(0, 0, 0, 0.3)"};
-    const inlineStyle = {display: "inline"};
     return (
       <div className="container col-sm-6">
 
         <h3>All Patients:</h3>
 
-        <div className="container" style={styleShadow}>
+        <div className="container shadow">
           <table className="table table-striped">
             <thead>
               <tr>
@@ -90,7 +88,7 @@ class PatientListPage extends React.Component {
 
               <div className="modal-content">
                 <div className="modal-header">
-                  <h4 className="modal-title inline" style={inlineStyle}>Send Quote to {this.quote.username}</h4>
+                  <h4 className="modal-title inline-style">Send Quote to {this.quote.username}</h4>
                   <button type="button" className="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div className="modal-body">

@@ -52,8 +52,8 @@ class RegisterPage extends React.Component {
 
   render() {
     return (
-      <div className="container col-sm-6">
-        <h2>Login</h2>
+      <div className="container col-sm-6 shadow margin-login">
+        <h2>Register</h2>
         <form>
           <div className="form-group">
             <label htmlFor="firstName">FirstName</label>

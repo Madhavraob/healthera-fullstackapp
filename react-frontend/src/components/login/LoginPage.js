@@ -33,7 +33,7 @@ class LoginPage extends React.Component {
 
   render() {
     return (
-      <div className="container col-sm-6">
+      <div className="container col-sm-6 shadow margin-login">
         <h2>Login</h2>
         <form>
           <div className="form-group">

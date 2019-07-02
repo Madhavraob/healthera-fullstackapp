@@ -5,6 +5,7 @@ import * as userActions from "../../redux/actions/userActions";
 import * as notificationActions from "../../redux/actions/notificationActions";
 import * as quoteActions from "../../redux/actions/quoteActions";
 import { bindActionCreators } from "redux";
+import "./NotificationListPage.css"
 
 class NotificationListPage extends React.Component {
 
@@ -78,15 +79,11 @@ class NotificationListPage extends React.Component {
   }
 
   render() {
-    // const style = "box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);"
-    const bottonStyle = { float: 'right', 'marginTop': '22px' };
-    const messageStyle = { display: 'inline-block' };
-    const sendAlert = { display: 'inline' };
     let notificationsTemplate = null;
     let alertBtnTemplate = null;
     let activeNotifications = this.props.notifications.filter(notification => !notification.resolved);
     if (activeNotifications && activeNotifications.length) {
-      notificationsTemplate = (<div className="container">
+      notificationsTemplate = (<div className="container shadow">
         <table className="table table-striped">
           <thead>
             <tr>
@@ -121,7 +118,7 @@ class NotificationListPage extends React.Component {
 
     if (this.currentUser && this.currentUser.role === 'patient')
       alertBtnTemplate = (
-        <button type="button" className="btn btn-warning btn-lg" style={bottonStyle} data-toggle="modal" data-target="#myModal">
+        <button type="button" className="btn btn-warning btn-lg alert-btn" data-toggle="modal" data-target="#myModal">
           <span className="glyphicon glyphicon-alert"></span>
           Create Alert
           </button>)
@@ -130,7 +127,7 @@ class NotificationListPage extends React.Component {
       <div className="container-fluid">
 
         <div>
-          <div style={messageStyle}>
+          <div className="inlint-block-style">
             <h1>Hi {this.currentUser ? this.currentUser.firstName : ''}!</h1>
             <p>Hope you are doing good today!!</p>
           </div>
@@ -142,7 +139,7 @@ class NotificationListPage extends React.Component {
 
             <div className="modal-content">
               <div className="modal-header">
-                <h4 className="modal-title" style={sendAlert}>Send Alert</h4>
+                <h4 className="modal-title inline-style">Send Alert</h4>
                 <button type="button" className="close" data-dismiss="modal">&times;</button>
               </div>
               <div className="modal-body">
