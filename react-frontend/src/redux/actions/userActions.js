@@ -24,25 +24,14 @@ export function loginUser(user) {
 }
 
 export function register(user) {
-  return function (dispatch) {
+  return function () {
     return userApi
       .register(user)
-      // .then(loggedInUser => {
-      //   dispatch(loginUserSuccess(loggedInUser));
-      // })
       .catch(error => {
         throw error;
       });
   };
 }
-
-// export function getAll() {
-// return fetch(baseUrl + '/users/', {
-//   method: 'GET',
-//   headers: { "content-type": "application/json" }
-// }).then(handleResponse)
-//   .catch(handleError);
-// }
 
 export function getAllPatients() {
   return function (dispatch) {
@@ -55,18 +44,4 @@ export function getAllPatients() {
         throw error;
       });
   };
-  // return fetch(baseUrl + '/users/patients', {
-  //   method: 'GET',
-  //   headers: { "content-type": "application/json" }
-  // }).then(handleResponse)
-  //   .catch(handleError);
 }
-
-// export function getById(id) {
-//   return fetch(baseUrl + '/users/patients' + id, {
-//     method: 'GET',
-//     headers: { "content-type": "application/json" }
-//   }).then(handleResponse)
-//     .catch(handleError);
-// }
-

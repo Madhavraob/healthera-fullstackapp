@@ -9,17 +9,13 @@ class LoginPage extends React.Component {
   username;
   password;
 
-  login = (event) => {
-    // event.preventDefaults()
+  login = () => {
     this.props.actions.loginUser({ username: this.username, password: this.password }).catch(error => {
       alert("Login failed" + error);
     });
   }
 
   componentDidMount() {
-    // if (this.props.loggedInUser && this.props.loggedInUser.token)
-    //   this.props.history.push("/")
-    // this.login()
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -27,7 +23,6 @@ class LoginPage extends React.Component {
       this.props.history.push("/")
   }
 
-  // handleSubmit = () =>
   handleNameChange = (value) => {
     this.username = value.target.value;
   }
@@ -65,7 +60,8 @@ class LoginPage extends React.Component {
 
 LoginPage.propTypes = {
   loggedInUser: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

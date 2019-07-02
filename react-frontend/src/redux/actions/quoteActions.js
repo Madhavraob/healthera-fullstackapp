@@ -9,19 +9,6 @@ export function loadQuotesSuccess(payload) {
   return { type: types.LOAD_QUOTES_SUCCESS, payload };
 }
 
-// export function loginUser(user) {
-//   return function (dispatch) {
-//     return userApi
-//       .login(user)
-//       .then(loggedInUser => {
-//         dispatch(loginUserSuccess(loggedInUser));
-//       })
-//       .catch(error => {
-//         throw error;
-//       });
-//   };
-// }
-
 export function create(quote) {
   return function (dispatch) {
     return quoteApi
@@ -48,18 +35,4 @@ export function getByPatientId(id) {
         throw error;
       });
   };
-  // return fetch(baseUrl + '/users/patients', {
-  //   method: 'GET',
-  //   headers: { "content-type": "application/json" }
-  // }).then(handleResponse)
-  //   .catch(handleError);
 }
-
-// export function getById(id) {
-//   return fetch(baseUrl + '/users/patients' + id, {
-//     method: 'GET',
-//     headers: { "content-type": "application/json" }
-//   }).then(handleResponse)
-//     .catch(handleError);
-// }
-

@@ -13,13 +13,13 @@ class RegisterPage extends React.Component {
   tel;
   role;
 
-  register = (event) => {
+  register = () => {
     this.props.actions.register(
       {
         firstName: this.firstName, lastName: this.lastName,
         username: this.username, password: this.password,
         tel: this.tel, role: this.role
-      }).then(res => {
+      }).then(() => {
         this.props.history.push("/login")
       }).catch(error => {
         alert("Registering user failed" + error);
@@ -30,11 +30,6 @@ class RegisterPage extends React.Component {
     if (this.props.loggedInUser && this.props.loggedInUser.token)
       this.props.history.push("/")
   }
-
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.props.loggedInUser && this.props.loggedInUser.token)
-  //     this.props.history.push("/")
-  // }
 
   handleFNameChange = (value) => {
     this.firstName = value.target.value;
@@ -103,7 +98,8 @@ class RegisterPage extends React.Component {
 
 RegisterPage.propTypes = {
   loggedInUser: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

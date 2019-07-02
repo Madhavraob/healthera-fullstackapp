@@ -54,27 +54,3 @@ export function getById(id) {
   }).then(handleResponse)
     .catch(handleError);
 }
-
-// getAll() {
-//         return this.http.get<User[]>(`${environment.apiUrl}/users`);
-//     }
-
-//     getAllPatients() {
-//         return this.http.get<User[]>(`${environment.apiUrl}/users/patients`);
-//     }
-
-//     getById(id: number) {
-//         return this.http.get(`${environment.apiUrl}/users/${id}`);
-//     }
-
-//     register(user: User) {
-//         return this.http.post(`${environment.apiUrl}/users/register`, user);
-//     }
-
-//     update(user: User) {
-//         return this.http.put(`${environment.apiUrl}/users/${user.id}`, user);
-//     }
-
-//     delete(id: number) {
-//         return this.http.delete(`${environment.apiUrl}/users/${id}`);
-//     }

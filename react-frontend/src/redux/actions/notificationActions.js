@@ -14,12 +14,9 @@ export function loadNotificationsSuccess(payload) {
 }
 
 export function create(notification) {
-  return function (dispatch) {
+  return function () {
     return notificationsApi
       .create(notification)
-      // .then(newNotification => {
-      //   dispatch(createNotificationSuccess(newNotification));
-      // })
       .catch(error => {
         throw error;
       });
@@ -27,12 +24,9 @@ export function create(notification) {
 }
 
 export function update(notification) {
-  return function (dispatch) {
+  return function () {
     return notificationsApi
       .update(notification)
-      // .then(updatedNotification => {
-      //   dispatch(updateNotificationSuccess(updatedNotification));
-      // })
       .catch(error => {
         throw error;
       });

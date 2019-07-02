@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import * as userActions from "../../redux/actions/userActions";
 import * as quoteActions from "../../redux/actions/quoteActions";
 import { bindActionCreators } from "redux";
-// import PatientPage from "./PatientPage";
 
 class PatientListPage extends React.Component {
 
@@ -13,13 +12,6 @@ class PatientListPage extends React.Component {
   currentPatient = { firstName: '' };
   quote = { userId: '', username: '', quote: '' }
 
-  login = (event) => {
-    // event.preventDefaults()
-    this.props.actions.loginUser({ username: this.username, password: this.password }).catch(error => {
-      alert("Login User failed" + error);
-    });
-  }
-
   componentDidMount() {
     this.props.actions.getAllPatients().catch(error => {
       alert("Fetch patients failed" + error);
@@ -27,12 +19,6 @@ class PatientListPage extends React.Component {
 
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.props.loggedInUser && this.props.loggedInUser.token)
-  //     this.props.history.push("/")
-  // }
-
-  // handleSubmit = () =>
   handleNameChange = (value) => {
     this.username = value.target.value;
   }
@@ -44,6 +30,7 @@ class PatientListPage extends React.Component {
   setCurrentPatient = (patient) => {
     this.quote.userId = patient._id;
     this.quote.username = patient.firstName;
+    this.quote.quote = '';
   }
 
   handleInputChange = (event, field) => {
@@ -52,13 +39,9 @@ class PatientListPage extends React.Component {
 
 
   sendQuote = () => {
-    debugger
     this.props.actions.create(this.quote).catch(error => {
       alert("Create Record failed" + error);
     });
-    // this.props.actions.getAllPatients().catch(error => {
-    //   alert("Fetch patients failed" + error);
-    // });
   }
 
   getReports = (patient) => {
@@ -66,13 +49,14 @@ class PatientListPage extends React.Component {
   }
 
   render() {
-    // const style = "box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);"
+    const styleShadow = {boxShadow: "0 15px 20px rgba(0, 0, 0, 0.3)"};
+    const inlineStyle = {display: "inline"};
     return (
       <div className="container col-sm-6">
 
         <h3>All Patients:</h3>
 
-        <div className="container">
+        <div className="container" style={styleShadow}>
           <table className="table table-striped">
             <thead>
               <tr>
@@ -106,7 +90,7 @@ class PatientListPage extends React.Component {
 
               <div className="modal-content">
                 <div className="modal-header">
-                  <h4 className="modal-title inline">Send Quote too {this.currentPatient.firstName}</h4>
+                  <h4 className="modal-title inline" style={inlineStyle}>Send Quote to {this.quote.username}</h4>
                   <button type="button" className="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div className="modal-body">
@@ -132,7 +116,8 @@ class PatientListPage extends React.Component {
 
 PatientListPage.propTypes = {
   users: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
@@ -144,7 +129,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      loginUser: bindActionCreators(userActions.loginUser, dispatch),
+      // loginUser: bindActionCreators(userActions.loginUser, dispatch),
       create: bindActionCreators(quoteActions.create, dispatch),
       getAllPatients: bindActionCreators(userActions.getAllPatients, dispatch),
     }

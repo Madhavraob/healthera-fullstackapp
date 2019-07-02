@@ -34,23 +34,3 @@ export function update(notification) {
   }).then(handleResponse)
     .catch(handleError);
 }
-
-    // create(notification: Notification) {
-    //     return this.http.post(`${environment.apiUrl}/notifications/`, notification);
-    // }
-
-    // getAll() {
-    //     return this.http.get<Notification[]>(`${environment.apiUrl}/notifications`);
-    // }
-
-    // getByPatientId(id: number) {
-    //     return this.http.get<Notification[]>(`${environment.apiUrl}/notifications/patient/${id}`);
-    // }
-
-    // getById(id: number) {
-    //     return this.http.get(`${environment.apiUrl}/notifications/${id}`);
-    // }
-
-    // update(notification: Notification) {
-    //     return this.http.put(`${environment.apiUrl}/notifications/${notification.id}`, notification);
-    // }

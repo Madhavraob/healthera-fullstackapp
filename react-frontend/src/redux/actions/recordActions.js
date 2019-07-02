@@ -9,26 +9,10 @@ export function loadRecordsSuccess(payload) {
   return { type: types.LOAD_RECORDS_SUCCESS, payload };
 }
 
-// export function loginUser(user) {
-//   return function (dispatch) {
-//     return userApi
-//       .login(user)
-//       .then(loggedInUser => {
-//         dispatch(loginUserSuccess(loggedInUser));
-//       })
-//       .catch(error => {
-//         throw error;
-//       });
-//   };
-// }
-
 export function create(record) {
-  return function (dispatch) {
+  return function () {
     return recordApi
       .create(record)
-      // .then(() => {
-      //   dispatch(createRecordSuccess());
-      // })
       .catch(error => {
         throw error;
       });
@@ -46,18 +30,4 @@ export function getByPatientId(id) {
         throw error;
       });
   };
-  // return fetch(baseUrl + '/users/patients', {
-  //   method: 'GET',
-  //   headers: { "content-type": "application/json" }
-  // }).then(handleResponse)
-  //   .catch(handleError);
 }
-
-// export function getById(id) {
-//   return fetch(baseUrl + '/users/patients' + id, {
-//     method: 'GET',
-//     headers: { "content-type": "application/json" }
-//   }).then(handleResponse)
-//     .catch(handleError);
-// }
-

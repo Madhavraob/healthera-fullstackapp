@@ -25,17 +25,10 @@ class RecordListPage extends React.Component {
     this.patientId = this.props.match.params.patientId;    
     this.patientName = this.props.match.params.patientName;    
     this.props.actions.getByPatientId(this.props.match.params.patientId).catch(error => {
-      // this.props.actions.getByPatientId('5caf28e2e917e108a4bc4fa').catch(error => {
       alert("Fetch patients failed" + error);
     });
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.props.loggedInUser && this.props.loggedInUser.token)
-  //     this.props.history.push("/")
-  // }
-
-  // handleSubmit = () =>
   handleNameChange = (value) => {
     this.username = value.target.value;
   }
@@ -144,7 +137,8 @@ class RecordListPage extends React.Component {
 RecordListPage.propTypes = {
   users: PropTypes.object.isRequired,
   records: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

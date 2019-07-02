@@ -42,40 +42,20 @@ class NotificationListPage extends React.Component {
       });
     }
   }
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.props.users.loggedInUser && this.props.users.loggedInUser.token)
-  //   this.loadNotifications();      
-  // }
 
-  // handleSubmit = () =>
   handleNameChange = (value) => {
     this.username = value.target.value;
   }
 
-  // updateNotification = (value, _id) => {
-  //   const updatedNotification = this.props.notifications.find(notification => notification._id === _id);
-  //   updatedNotification.resolved = !updatedNotification.resolved;
-  //   this.props.actions.update(updatedNotification).then(() => {
-  //     // this.loadNotifications();
-  //   })
-  //     .catch(ex => {
-  //       console.log(ex)
-  //       // alert("update notification failed" + error)
-  //     });
-  // }
 
   updateNotification = (value, item) => {
     const upd = { ...item };
     upd.resolved = !upd.resolved;
-    // item.resolved = true;
-    // const updatedNotification = this.props.notifications.find(notification => notification._id === _id);
-    // updatedNotification.resolved = !updatedNotification.resolved;
     this.props.actions.update(upd).then(() => {
       this.loadNotifications();
     })
       .catch(ex => {
         console.log(ex)
-        // alert("update notification failed" + error)
       });
   }
 
@@ -188,7 +168,9 @@ class NotificationListPage extends React.Component {
 NotificationListPage.propTypes = {
   users: PropTypes.object.isRequired,
   notifications: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  quotes: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {

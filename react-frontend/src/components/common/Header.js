@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 import { withRouter } from 'react-router'
 
 class Header extends React.Component {
@@ -19,23 +19,6 @@ class Header extends React.Component {
     localStorage.removeItem('currentUser');
     this.props.history.push("/login");
   }
-
-  // buildHeaders = () => {
-  //   const isPatient = this.currentUser && this.currentUser.role === 'patient';
-  //   if (isPatient) {
-  //     return (<li>
-  //       <a href="/patient-list">
-  //         <span className="glyphicon glyphicon-user"></span>
-  //         Patients</a></li>);
-  //   } else {
-  //     return (<li>
-  //       <a href={'/patient/' + (this.currentUser ? this.currentUser._id : '')}>
-  //         <span className="glyphicon glyphicon-paste"></span>
-  //         Reports</a></li>)
-
-  //   }
-
-  // }
 
   render() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));    
@@ -64,14 +47,6 @@ class Header extends React.Component {
               <span className="glyphicon glyphicon-home"></span>
               Home</a></li>
             {header}
-            {/* <li hidden={isPatient}>
-              <a href="/patient-list">
-                <span className="glyphicon glyphicon-user"></span>
-                Patients</a></li>
-            <li hidden={isPatient}>
-              <a href={'/patient/' + (this.currentUser ? this.currentUser._id : '')}>
-                <span className="glyphicon glyphicon-paste"></span>
-                Reports</a></li> */}
           </ul>
           <ul className="nav navbar-nav navbar-right">
             <li onClick={this.logout}><a><span className="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -82,5 +57,9 @@ class Header extends React.Component {
   }
 
 }
+
+Header.propTypes = {
+  history: PropTypes.object.isRequired
+};
 
 export default withRouter(Header);
