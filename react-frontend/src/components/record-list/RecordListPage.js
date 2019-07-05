@@ -1,35 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import * as userActions from "../../redux/actions/userActions";
 import * as recordActions from "../../redux/actions/recordActions";
 import { bindActionCreators } from "redux";
+import { RecordModel } from '../../models/RecordModel'
+import './RecordListPage.css';
 
-class RecordModel {
-  userId = '';
-  username = '';
-  pulseRate = '';
-  bloodPressure = '';
-  temprature = '';
-  weight = '';
-  comments = ''
-}
 class RecordListPage extends React.Component {
-
-  // username;
-  patientId;
-  patientName;
-  // password;
-  // currentPatient = { firstName: '' };
-  // newRecord = {
-  //   userId: '', username: '', pulseRate: '', bloodPressure: '',
-  //   temprature: '', weight: '', comments: ''
-  // }
 
   constructor(props) {
     super(props)
     this.state = {
-      record: new RecordModel()
+      record: new RecordModel(),
+      patientId: '',
+      patientName: ''
     }
   }
 
@@ -38,20 +22,12 @@ class RecordListPage extends React.Component {
   }
 
   loadRecords = () => {
-    this.patientId = this.props.match.params.patientId;
-    this.patientName = this.props.match.params.patientName;
+    this.setState({ patientId: this.props.match.params.patientId });
+    this.setState({ patientName: this.props.match.params.patientName });
     this.props.actions.getByPatientId(this.props.match.params.patientId).catch(error => {
       alert("Fetch patients failed" + error);
     });
   }
-
-  // handleNameChange = (value) => {
-  //   this.username = value.target.value;
-  // }
-
-  // handlePasswordChange = (value) => {
-  //   this.password = value.target.value;
-  // }
 
   handleInputChange = (event, field) => {
     const newRecord = { ...this.state.record };
@@ -60,11 +36,11 @@ class RecordListPage extends React.Component {
   }
 
   createRecord = () => {
-    this.setState({ record: { ...this.state.record, userId: this.patientId, username: this.patientName } });
-    // console.log(this.state.record)
-    // this.newRecord.userId = this.patientId;
-    // this.newRecord.username = this.patientName;
-    this.props.actions.create(this.state.record)
+    const newRecord = { ...this.state.record };
+    newRecord.userId = this.state.patientId;
+    newRecord.username = this.state.patientName;
+    this.setState({ record: newRecord });
+    this.props.actions.create(newRecord)
       .then(() => {
         this.setState({ record: new RecordModel() });
         this.loadRecords();
@@ -75,16 +51,13 @@ class RecordListPage extends React.Component {
   }
 
   render() {
-    const addReportBtnStyles = { float: 'right', marginTop: '15px' };
-    const inlineStyle = { display: 'inline-block' };
-    const shadowStyle = { boxShadow: "0 15px 20px rgba(0, 0, 0, 0.3)" }
     return (
       <div className="container-fluid">
 
-        <h3 style={inlineStyle}>Reports of {this.patientName}</h3>
-        <button type="button" className="btn btn-info btn-md" style={addReportBtnStyles} data-toggle="modal" data-target="#myModal">Add Report</button>
+        <h3 className="inline-style">Reports of {this.state.patientName}</h3>
+        <button type="button" className="btn btn-info btn-md add-record-btn" data-toggle="modal" data-target="#myModal">Add Report</button>
 
-        <div className="container-fluid" style={shadowStyle}>
+        <div className="container-fluid shadow">
           <table className="table table-striped">
             <thead>
               <tr>
@@ -114,7 +87,7 @@ class RecordListPage extends React.Component {
 
               <div className="modal-content">
                 <div className="modal-header">
-                  <h4 className="modal-title" style={inlineStyle}>Create Record</h4>
+                  <h4 className="modal-title inline-style">Create Record</h4>
                   <button type="button" className="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div className="modal-body">
@@ -156,7 +129,6 @@ class RecordListPage extends React.Component {
 }
 
 RecordListPage.propTypes = {
-  users: PropTypes.object.isRequired,
   records: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired
@@ -164,7 +136,6 @@ RecordListPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    users: state.users,
     records: state.records
   };
 }
@@ -172,7 +143,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      getAllPatients: bindActionCreators(userActions.getAllPatients, dispatch),
       create: bindActionCreators(recordActions.create, dispatch),
       getByPatientId: bindActionCreators(recordActions.getByPatientId, dispatch)
     }

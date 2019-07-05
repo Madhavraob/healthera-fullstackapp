@@ -8,17 +8,12 @@ import { QuoteModel } from "../../models/QuoteModel";
 
 class PatientListPage extends React.Component {
 
-  // username;
-  // password;
-  // currentPatient = { firstName: '' };
-  // quote = { userId: '', username: '', quote: '' }
   constructor(props) {
     super(props)
     this.state = {
       quote: new QuoteModel()
     }
   }
-  // quote = new QuoteModel();
 
   componentDidMount() {
     this.props.actions.getAllPatients().catch(error => {
@@ -27,31 +22,21 @@ class PatientListPage extends React.Component {
 
   }
 
-  // handleNameChange = (value) => {
-  //   this.username = value.target.value;
-  // }
-
-  // handlePasswordChange = (value) => {
-  //   this.password = value.target.value;
-  // }
-
   setCurrentPatient = (patient) => {
-    // this.quote.userId = patient._id;
-    // this.quote.username = patient.firstName;
-    // this.quote.quote = '';
     this.setState({ quote: { userId: patient._id, username: patient.firstName, quote: '' } })
   }
 
   handleInputChange = (event, field) => {
-    // this.quote[field] = event.target.value;
-    this.setState({ quote: { ...this.state.quote, quote: event.target.value } })
+    const newQuote = this.state.quote;
+    newQuote[field] = event.target.value;
+    this.setState({ quote: newQuote });
   }
 
 
   sendQuote = () => {
     this.props.actions.create(this.state.quote).catch(error => {
-        alert("Create Record failed" + error);
-      });
+      alert("Create Record failed" + error);
+    });
   }
 
   getReports = (patient) => {
@@ -137,7 +122,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      // loginUser: bindActionCreators(userActions.loginUser, dispatch),
       create: bindActionCreators(quoteActions.create, dispatch),
       getAllPatients: bindActionCreators(userActions.getAllPatients, dispatch),
     }
