@@ -44,9 +44,9 @@ class NotificationListPage extends React.Component {
     }
   }
 
-  handleNameChange = (value) => {
-    this.username = value.target.value;
-  }
+  // handleNameChange = (value) => {
+  //   this.username = value.target.value;
+  // }
 
 
   updateNotification = (value, item) => {

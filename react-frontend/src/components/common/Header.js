@@ -3,16 +3,11 @@ import PropTypes from "prop-types";
 import { withRouter } from 'react-router'
 
 class Header extends React.Component {
-  activeStyle = { color: "#F15B2A" };
-  currentUser;// = localStorage.getItem('currentUser');
+
+  currentUser;
 
   constructor(props) {
     super(props)
-  }
-
-
-  componentDidMount() {
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
   }
 
   logout = () => {
@@ -21,12 +16,12 @@ class Header extends React.Component {
   }
 
   render() {
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));    
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const isPatient = this.currentUser && this.currentUser.role === 'patient';
     let header;
     if (isPatient) {
       header = (<li>
-        <a href={'/reports/' + (this.currentUser ? (this.currentUser._id+'/'+this.currentUser.firstName) : '')}>
+        <a href={'/reports/' + (this.currentUser ? (this.currentUser._id + '/' + this.currentUser.firstName) : '')}>
           <span className="glyphicon glyphicon-paste"></span>
           Reports</a></li>)
     } else {
@@ -36,24 +31,28 @@ class Header extends React.Component {
           Patients</a></li>);
     }
 
-    return (
-      <nav className="navbar navbar-inverse">
-        <div className="container-fluid">
-          <div className="navbar-header">
-            <a className="navbar-brand" href="/">HealthCare</a>
+    if (this.currentUser) {
+      return (
+        <nav className="navbar navbar-inverse">
+          <div className="container-fluid">
+            <div className="navbar-header">
+              <a className="navbar-brand" href="/">HealthCare</a>
+            </div>
+            <ul className="nav navbar-nav">
+              <li><a href="/">
+                <span className="glyphicon glyphicon-home"></span>
+                Home</a></li>
+              {header}
+            </ul>
+            <ul className="nav navbar-nav navbar-right">
+              <li onClick={this.logout}><a><span className="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
           </div>
-          <ul className="nav navbar-nav">
-            <li><a href="/">
-              <span className="glyphicon glyphicon-home"></span>
-              Home</a></li>
-            {header}
-          </ul>
-          <ul className="nav navbar-nav navbar-right">
-            <li onClick={this.logout}><a><span className="glyphicon glyphicon-log-out"></span> Logout</a></li>
-          </ul>
-        </div>
-      </nav>
-    );
+        </nav>
+      );
+    } else {
+      return null;
+    }
   }
 
 }

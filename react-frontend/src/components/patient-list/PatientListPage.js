@@ -4,13 +4,21 @@ import PropTypes from "prop-types";
 import * as userActions from "../../redux/actions/userActions";
 import * as quoteActions from "../../redux/actions/quoteActions";
 import { bindActionCreators } from "redux";
+import { QuoteModel } from "../../models/QuoteModel";
 
 class PatientListPage extends React.Component {
 
-  username;
-  password;
-  currentPatient = { firstName: '' };
-  quote = { userId: '', username: '', quote: '' }
+  // username;
+  // password;
+  // currentPatient = { firstName: '' };
+  // quote = { userId: '', username: '', quote: '' }
+  constructor(props) {
+    super(props)
+    this.state = {
+      quote: new QuoteModel()
+    }
+  }
+  // quote = new QuoteModel();
 
   componentDidMount() {
     this.props.actions.getAllPatients().catch(error => {
@@ -19,29 +27,31 @@ class PatientListPage extends React.Component {
 
   }
 
-  handleNameChange = (value) => {
-    this.username = value.target.value;
-  }
+  // handleNameChange = (value) => {
+  //   this.username = value.target.value;
+  // }
 
-  handlePasswordChange = (value) => {
-    this.password = value.target.value;
-  }
+  // handlePasswordChange = (value) => {
+  //   this.password = value.target.value;
+  // }
 
   setCurrentPatient = (patient) => {
-    this.quote.userId = patient._id;
-    this.quote.username = patient.firstName;
-    this.quote.quote = '';
+    // this.quote.userId = patient._id;
+    // this.quote.username = patient.firstName;
+    // this.quote.quote = '';
+    this.setState({ quote: { userId: patient._id, username: patient.firstName, quote: '' } })
   }
 
   handleInputChange = (event, field) => {
-    this.quote[field] = event.target.value;
+    // this.quote[field] = event.target.value;
+    this.setState({ quote: { ...this.state.quote, quote: event.target.value } })
   }
 
 
   sendQuote = () => {
-    this.props.actions.create(this.quote).catch(error => {
-      alert("Create Record failed" + error);
-    });
+    this.props.actions.create(this.state.quote).catch(error => {
+        alert("Create Record failed" + error);
+      });
   }
 
   getReports = (patient) => {
@@ -65,16 +75,16 @@ class PatientListPage extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.users.patients.map(item =>
+              {this.props.users.patients.map(patient =>
                 (
-                  <tr key={item._id}>
-                    <td onClick={() => this.getReports(item)}>{item.firstName}</td>
-                    <td>{item.lastName}</td>
-                    <td>{item.tel}</td>
+                  <tr key={patient._id}>
+                    <td onClick={() => this.getReports(patient)}>{patient.firstName}</td>
+                    <td>{patient.lastName}</td>
+                    <td>{patient.tel}</td>
                     <td>
                       <button type="button" className="btn btn-info btn-sm"
                         data-toggle="modal" data-target="#myModal"
-                        onClick={() => this.setCurrentPatient(item)}>
+                        onClick={() => this.setCurrentPatient(patient)}>
                         <span className="glyphicon glyphicon-envelope"></span>
                       </button>
                     </td >
@@ -88,14 +98,14 @@ class PatientListPage extends React.Component {
 
               <div className="modal-content">
                 <div className="modal-header">
-                  <h4 className="modal-title inline-style">Send Quote to {this.quote.username}</h4>
+                  <h4 className="modal-title inline-style">Send Quote to {this.state.quote.username}</h4>
                   <button type="button" className="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div className="modal-body">
                   <form>
                     <div className="form-group">
                       <label htmlFor="quote">Quote</label>
-                      <textarea type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'quote')} />
+                      <textarea type="text" className="form-control" value={this.state.quote.quote} onChange={(event) => this.handleInputChange(event, 'quote')} />
                     </div>
                   </form>
                 </div >

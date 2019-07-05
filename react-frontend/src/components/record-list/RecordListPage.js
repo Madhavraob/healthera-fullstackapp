@@ -5,16 +5,32 @@ import * as userActions from "../../redux/actions/userActions";
 import * as recordActions from "../../redux/actions/recordActions";
 import { bindActionCreators } from "redux";
 
+class RecordModel {
+  userId = '';
+  username = '';
+  pulseRate = '';
+  bloodPressure = '';
+  temprature = '';
+  weight = '';
+  comments = ''
+}
 class RecordListPage extends React.Component {
 
-  username;
+  // username;
   patientId;
   patientName;
-  password;
-  currentPatient = { firstName: '' };
-  newRecord = {
-    userId: '', username: '', pulseRate: '', bloodPressure: '',
-    temprature: '', weight: '', comments: ''
+  // password;
+  // currentPatient = { firstName: '' };
+  // newRecord = {
+  //   userId: '', username: '', pulseRate: '', bloodPressure: '',
+  //   temprature: '', weight: '', comments: ''
+  // }
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      record: new RecordModel()
+    }
   }
 
   componentDidMount() {
@@ -22,41 +38,46 @@ class RecordListPage extends React.Component {
   }
 
   loadRecords = () => {
-    this.patientId = this.props.match.params.patientId;    
-    this.patientName = this.props.match.params.patientName;    
+    this.patientId = this.props.match.params.patientId;
+    this.patientName = this.props.match.params.patientName;
     this.props.actions.getByPatientId(this.props.match.params.patientId).catch(error => {
       alert("Fetch patients failed" + error);
     });
   }
 
-  handleNameChange = (value) => {
-    this.username = value.target.value;
-  }
+  // handleNameChange = (value) => {
+  //   this.username = value.target.value;
+  // }
 
-  handlePasswordChange = (value) => {
-    this.password = value.target.value;
-  }
+  // handlePasswordChange = (value) => {
+  //   this.password = value.target.value;
+  // }
 
   handleInputChange = (event, field) => {
-    this.newRecord[field] = event.target.value;
+    const newRecord = { ...this.state.record };
+    newRecord[field] = event.target.value;
+    this.setState({ record: newRecord });
   }
 
   createRecord = () => {
-    this.newRecord.userId = this.patientId;
-    this.newRecord.username = this.patientName;    
-    this.props.actions.create(this.newRecord)
-    .then(() => {
-      this.loadRecords();
-    })
-    .catch(error => {
-      alert("Create Record failed" + error);
-    });
+    this.setState({ record: { ...this.state.record, userId: this.patientId, username: this.patientName } });
+    // console.log(this.state.record)
+    // this.newRecord.userId = this.patientId;
+    // this.newRecord.username = this.patientName;
+    this.props.actions.create(this.state.record)
+      .then(() => {
+        this.setState({ record: new RecordModel() });
+        this.loadRecords();
+      })
+      .catch(error => {
+        alert("Create Record failed" + error);
+      });
   }
 
   render() {
     const addReportBtnStyles = { float: 'right', marginTop: '15px' };
     const inlineStyle = { display: 'inline-block' };
-    const shadowStyle = {boxShadow: "0 15px 20px rgba(0, 0, 0, 0.3)"}
+    const shadowStyle = { boxShadow: "0 15px 20px rgba(0, 0, 0, 0.3)" }
     return (
       <div className="container-fluid">
 
@@ -100,23 +121,23 @@ class RecordListPage extends React.Component {
                   <form>
                     <div className="form-group">
                       <label htmlFor="pulseRate">Pulserate</label>
-                      <input type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'pulseRate')}/>
+                      <input type="text" className="form-control" value={this.state.record.pulseRate} onChange={(event) => this.handleInputChange(event, 'pulseRate')} />
                     </div>
                     <div className="form-group">
                       <label htmlFor="bloodPressure">Bloodpressure</label>
-                      <input type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'bloodPressure')}/>
+                      <input type="text" className="form-control" value={this.state.record.bloodPressure} onChange={(event) => this.handleInputChange(event, 'bloodPressure')} />
                     </div>
                     <div className="form-group">
                       <label htmlFor="temprature">Temprature</label>
-                      <input type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'temprature')}/>
+                      <input type="text" className="form-control" value={this.state.record.temprature} onChange={(event) => this.handleInputChange(event, 'temprature')} />
                     </div>
                     <div className="form-group">1
                       <label htmlFor="weight">weight</label>
-                      <input type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'weight')}/>
+                      <input type="text" className="form-control" value={this.state.record.weight} onChange={(event) => this.handleInputChange(event, 'weight')} />
                     </div>
                     <div className="form-group">
                       <label htmlFor="comments">Comments</label>
-                      <textarea type="text" className="form-control" onChange={(event) => this.handleInputChange(event, 'comments')}/>
+                      <textarea type="text" className="form-control" value={this.state.record.comments} onChange={(event) => this.handleInputChange(event, 'comments')} />
                     </div>
                   </form>
                 </div>
