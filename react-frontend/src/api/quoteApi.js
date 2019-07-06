@@ -14,11 +14,9 @@ export function getByPatientId(id) {
   return fetch(baseUrl + '/quotes/patient/' + id, {
     method: 'GET',
     headers: getHeaders()
-  }).then(
-    // handleResponse)
-    res => {
-      if (res)
-        return handleResponse(res);
-    })
+  }).then(res => {
+    if (res)
+      return handleResponse(res);
+  })
     .catch(handleError);
 }

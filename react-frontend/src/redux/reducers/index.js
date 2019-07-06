@@ -2,12 +2,12 @@ import { combineReducers } from "redux";
 import users from "./userReducer";
 import records from "./recordReducer";
 import notifications from "./notificationReducer";
-import quotes from "./quoteReducer";
+import quote from "./quoteReducer";
 const rootReducer = combineReducers({
   users,
   records,
   notifications,
-  quotes
+  quote
 });
 
 export default rootReducer;

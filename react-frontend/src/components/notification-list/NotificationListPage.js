@@ -27,9 +27,9 @@ class NotificationListPage extends React.Component {
     }
   }
 
-  loadQuotes = (patientId) => {
-    this.props.actions.getQuotes(patientId).catch(error => {
-      alert("Fetch quotes failed" + error);
+  loadQuote = (patientId) => {
+    this.props.actions.getQuote(patientId).catch(error => {
+      alert("Fetch quote failed" + error);
     });
   }
 
@@ -38,7 +38,7 @@ class NotificationListPage extends React.Component {
       this.props.actions.getByPatientId(this.currentUser._id).catch(error => {
         alert("Fetch patients failed" + error);
       });
-      this.loadQuotes(this.currentUser._id);
+      this.loadQuote(this.currentUser._id);
       this.setState({ notification: new NotificationModel() })
     } else {
       this.props.actions.getAll().catch(error => {
@@ -108,10 +108,10 @@ class NotificationListPage extends React.Component {
         </table>
       </div>
       )
-    } else if (this.props.quotes && this.props.quotes.quote) {
+    } else if (this.props.quote && this.props.quote.quote) {
       notificationsTemplate = (
         <blockquote>
-          {this.props.quotes.quote}
+          {this.props.quote.quote}
         </blockquote>)
     }
 
@@ -166,13 +166,13 @@ NotificationListPage.propTypes = {
   notifications: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  quotes: PropTypes.object.isRequired
+  quote: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
   return {
     notifications: state.notifications,
-    quotes: state.quotes
+    quote: state.quote
   };
 }
 
@@ -183,7 +183,7 @@ function mapDispatchToProps(dispatch) {
       update: bindActionCreators(notificationActions.update, dispatch),
       getByPatientId: bindActionCreators(notificationActions.getByPatientId, dispatch),
       getAll: bindActionCreators(notificationActions.getAll, dispatch),
-      getQuotes: bindActionCreators(quoteActions.getByPatientId, dispatch)
+      getQuote: bindActionCreators(quoteActions.getByPatientId, dispatch)
     }
   };
 }

@@ -5,8 +5,8 @@ export function createQuoteSuccess(payload) {
   return { type: types.CREATE_QUOTE_SUCCESS, payload };
 }
 
-export function loadQuotesSuccess(payload) {
-  return { type: types.LOAD_QUOTES_SUCCESS, payload };
+export function loadQuoteSuccess(payload) {
+  return { type: types.LOAD_QUOTE_SUCCESS, payload };
 }
 
 export function create(quote) {
@@ -28,7 +28,7 @@ export function getByPatientId(id) {
       .getByPatientId(id)
       .then(quote => {
         if (quote) {
-          dispatch(loadQuotesSuccess(quote));
+          dispatch(loadQuoteSuccess(quote));
         }
       })
       .catch(error => {
