@@ -18,7 +18,7 @@ export function getByPatientId(id) {
     // handleResponse)
     res => {
       if (res)
-        handleResponse
+        return handleResponse(res);
     })
     .catch(handleError);
 }

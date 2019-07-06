@@ -26,9 +26,9 @@ export function getByPatientId(id) {
   return function (dispatch) {
     return quoteApi
       .getByPatientId(id)
-      .then(quotes => {
-        if (quotes) {
-          dispatch(loadQuotesSuccess(quotes));
+      .then(quote => {
+        if (quote) {
+          dispatch(loadQuotesSuccess(quote));
         }
       })
       .catch(error => {

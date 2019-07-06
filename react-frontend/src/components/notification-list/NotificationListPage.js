@@ -1,19 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import * as userActions from "../../redux/actions/userActions";
+import { bindActionCreators } from "redux";
 import * as notificationActions from "../../redux/actions/notificationActions";
 import * as quoteActions from "../../redux/actions/quoteActions";
-import { bindActionCreators } from "redux";
+import { NotificationModel } from "../../models/NotificationModel";
 import "./NotificationListPage.css"
 
 class NotificationListPage extends React.Component {
 
-  username;
-  password;
-  currentPatient;
-  notificationMsg = '';
   currentUser;
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      notification: new NotificationModel()
+    }
+  }
 
   componentDidMount() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -31,12 +34,12 @@ class NotificationListPage extends React.Component {
   }
 
   loadNotifications = () => {
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (this.currentUser.role === 'patient') {
       this.props.actions.getByPatientId(this.currentUser._id).catch(error => {
         alert("Fetch patients failed" + error);
       });
       this.loadQuotes(this.currentUser._id);
+      this.setState({ notification: new NotificationModel() })
     } else {
       this.props.actions.getAll().catch(error => {
         alert("Fetch patients failed" + error);
@@ -44,15 +47,10 @@ class NotificationListPage extends React.Component {
     }
   }
 
-  // handleNameChange = (value) => {
-  //   this.username = value.target.value;
-  // }
-
-
   updateNotification = (value, item) => {
-    const upd = { ...item };
-    upd.resolved = !upd.resolved;
-    this.props.actions.update(upd).then(() => {
+    const modifiedNotification = { ...item };
+    modifiedNotification.resolved = !modifiedNotification.resolved;
+    this.props.actions.update(modifiedNotification).then(() => {
       this.loadNotifications();
     })
       .catch(ex => {
@@ -61,17 +59,18 @@ class NotificationListPage extends React.Component {
   }
 
   notificationMsgChange = (event) => {
-    this.notificationMsg = event.target.value;
+    const modifiedNotification = { ...this.state.notification };
+    modifiedNotification.alert = event.target.value;
+    this.setState({ notification: modifiedNotification })
   }
 
   sendNotification = () => {
-    let currentUserLocal = JSON.parse(localStorage.getItem('currentUser'));
     const newNotification = {
-      alert: this.notificationMsg,
+      alert: this.state.notification.alert,
       resolved: false,
-      tel: currentUserLocal.tel,
-      userId: currentUserLocal._id,
-      username: currentUserLocal.firstName
+      tel: this.currentUser.tel,
+      userId: this.currentUser._id,
+      username: this.currentUser.username
     };
     this.props.actions.create(newNotification).then(() => {
       this.loadNotifications();
@@ -109,7 +108,7 @@ class NotificationListPage extends React.Component {
         </table>
       </div>
       )
-    } else {
+    } else if (this.props.quotes && this.props.quotes.quote) {
       notificationsTemplate = (
         <blockquote>
           {this.props.quotes.quote}
@@ -146,7 +145,8 @@ class NotificationListPage extends React.Component {
                 <form >
                   <div className="form-group">
                     <label htmlFor="alert">Message</label>
-                    <textarea type="text" className="form-control" onChange={this.notificationMsgChange}></textarea>
+                    <textarea type="text" className="form-control" value={this.state.notification.alert}
+                      onChange={this.notificationMsgChange}></textarea>
                   </div>
                 </form>
               </div>
@@ -163,7 +163,6 @@ class NotificationListPage extends React.Component {
 }
 
 NotificationListPage.propTypes = {
-  users: PropTypes.object.isRequired,
   notifications: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
@@ -172,7 +171,6 @@ NotificationListPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    users: state.users,
     notifications: state.notifications,
     quotes: state.quotes
   };
@@ -181,7 +179,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: {
-      getAllPatients: bindActionCreators(userActions.getAllPatients, dispatch),
       create: bindActionCreators(notificationActions.create, dispatch),
       update: bindActionCreators(notificationActions.update, dispatch),
       getByPatientId: bindActionCreators(notificationActions.getByPatientId, dispatch),
