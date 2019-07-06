@@ -1,5 +1,5 @@
 import { handleResponse, handleError } from "./apiUtils";
-const baseUrl = 'http://localhost:4000';
+const baseUrl = process.env.API_URL;
 
 export function login(user) {
   return fetch(baseUrl + '/users/authenticate', {

@@ -1,5 +1,5 @@
 import { handleResponse, handleError, getHeaders } from "./apiUtils";
-const baseUrl = 'http://localhost:4000';
+const baseUrl = process.env.API_URL;
 
 export function create(record) {
   return fetch(baseUrl + '/records/', {
