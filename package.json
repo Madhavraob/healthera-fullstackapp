@@ -2,7 +2,7 @@
   "name": "patient-management",
   "description": "app for patient management",
   "scripts": {
-    "start": "run-p start:backend start:angular start:react",
+    "start": "run-p start:backend start:react",
     "start:backend": "npm run start --prefix backend",
     "start:angular": "npm run start --prefix angular-frontend",
     "start:react": "npm run start --prefix react-frontend"

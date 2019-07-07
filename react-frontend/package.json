@@ -3,7 +3,7 @@
   "description": "React app for patient management",
   "scripts": {
     "start": "run-p start:dev",
-    "start:dev": "webpack-dev-server --config webpack.config.dev.js --port 3000",
+    "start:dev": "webpack-dev-server --config webpack.config.dev.js --port 3000 --host 0.0.0.0",
     "build": "webpack --config webpack.config.prod.js",
     "serve:build": "http-server ./build"
   },
